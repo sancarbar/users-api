@@ -1,5 +1,6 @@
 package org.adaschool.user.repository.document;
 
+import org.adaschool.user.controller.dto.UserDto;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -22,6 +23,12 @@ public class User
         this.id = id;
         this.name = name;
         this.email = email;
+    }
+
+    public User( UserDto userDto )
+    {
+        this.name = userDto.getName();
+        this.email = userDto.getEmail();
     }
 
     public String getId()
