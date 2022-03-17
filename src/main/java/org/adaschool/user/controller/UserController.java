@@ -1,7 +1,7 @@
 package org.adaschool.user.controller;
 
 import org.adaschool.user.controller.dto.UserDto;
-import org.adaschool.user.repository.UserRepositoryMongo;
+import org.adaschool.user.repository.UserRepository;
 import org.adaschool.user.repository.document.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,28 +15,28 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-@RequestMapping( "/user" )
+@RequestMapping( "/v1/user" )
 public class UserController
 {
 
-    private final UserRepositoryMongo userRepositoryMongo;
+    private final UserRepository userRepository;
 
-    public UserController( @Autowired UserRepositoryMongo userRepositoryMongo )
+    public UserController( @Autowired UserRepository userRepository )
     {
-        this.userRepositoryMongo = userRepositoryMongo;
+        this.userRepository = userRepository;
     }
 
     @PostMapping()
     public ResponseEntity<User> create( @RequestBody UserDto userDto )
     {
-        User user = userRepositoryMongo.save( new User( userDto ) );
+        User user = userRepository.save( new User( userDto ) );
         return ResponseEntity.ok( user );
     }
 
     @GetMapping( "/{id}" )
     public ResponseEntity<User> findById( @PathVariable String id )
     {
-        Optional<User> optionalUser = userRepositoryMongo.findById( id );
+        Optional<User> optionalUser = userRepository.findById( id );
         if ( optionalUser.isPresent() )
         {
             return ResponseEntity.ok( optionalUser.get() );
